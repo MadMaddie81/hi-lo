@@ -1,3 +1,5 @@
+import random
+
 def introduction():
     """
     Displays the header art, and prints the initial information
@@ -11,7 +13,7 @@ def introduction():
 
     print("Hello and welcome to Hi-Lo!\n")
     print("In this game I will think of a number and your task is simply\nto guess what that number is.\n")
-    print("If you can guess my number correctly in few enough tries\nI will give you a dragon.\n")
+    print("If you can guess my number correctly in few enough tries,\nI will give you a dragon.\n")
 
     print("First you need to pick your difficulty level.")
     print("Please answer with 1, 2 or 3\n")
@@ -53,13 +55,38 @@ def validate_choice(choice):
     return True
 
 
+def get_max(level):
+    """
+    Decides the highest possible number to be generated and guessed,
+    depending on the chosen difficulty level.
+    """
+    if level == 1:
+        top = 10
+    elif level == 2:
+        top = 100
+    elif level == 3:
+        top = 1000
+    return top
+
+
+def randomize_answer(top):
+    """
+    Randomizes the correct answer depending on the chosen difficulty level.
+    """
+    answer = random.randrange(1, top)
+    return answer
+
+
 def main():
     """
     The main function that will be calling the other functions in
     the correct order.
     """
     introduction()
-    get_difficulty()
+    level = get_difficulty()
+    highest_no = get_max(level)
+    answer = randomize_answer(highest_no)
+    print(answer)
 
 
 main()
