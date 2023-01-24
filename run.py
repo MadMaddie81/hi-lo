@@ -21,12 +21,45 @@ def introduction():
     print("3. HARD - 1-1000 - Guess my number within 10 tries to win the Big Dragon\n")
 
 
+def get_difficulty():
+    """
+    Get difficulty level choice from the player.
+    Runs a while-loop to get a valid answer from the player, 
+    which has to be 1, 2 or 3.
+    The loop will keep asking for a difficulty level 
+    until a valid number is entered.
+    """
+    while True:
+        choice = input("Choose difficulty level:\n")
+        if validate_choice(choice):
+            print("Thank you!\n")
+            break
+    return int(choice)
+
+
+def validate_choice(choice):
+    """
+    Inside the try, convert the input string to integer.
+    Raises ValueError if the string cannot be converted to int,
+    or if the choice isn't 1, 2 or 3.
+    """
+    try:
+        choice = int(choice)
+        if choice < 1 or choice > 3:
+            raise ValueError
+    except ValueError:
+        print(f"Umm... There are 3 difficulty levels.\nWhat do you mean with {choice}?\nPlease type 1, 2 or 3.\n")
+        return False
+    return True
+
+
 def main():
     """
-    The main function that will be calling the other functions in 
+    The main function that will be calling the other functions in
     the correct order.
     """
     introduction()
+    get_difficulty()
 
 
 main()
