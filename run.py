@@ -102,10 +102,32 @@ def get_guess():
     Returns the guess as an integer.
     """
     while True:
-        guess = input("What number am I thinking of?\n")
+        guess = input("What is my number?\n")
         if validate_guess(guess):
             break
     return int(guess)
+
+
+def play_game(answer, top):
+    """
+    Takes the player's guess and compares it to the correct answer 
+    in a while loop until the correct answer is given.
+    Keeps count on the number of guesses by adding +1 to a variable
+    for every iteration of the loop.
+    """
+    print(f"I'm thinking of a number between 1 and {top}.")
+    tries = 0
+    while True:
+        guess = get_guess()
+        tries += 1
+        if guess < answer:
+            print(f"My number is higher than {guess}\n")
+        elif guess > answer:
+            print(f"My number is lower than {guess}\n")
+        elif guess == answer:
+            print(f"You got it!\nI was thinking of {answer}")
+            break
+    return tries
 
 
 def main():
@@ -117,8 +139,8 @@ def main():
     level = get_difficulty()
     highest_no = get_max(level)
     answer = randomize_answer(highest_no)
-    guess = get_guess()
-    print(guess)
+    rounds = play_game(answer, highest_no)
+    print(f"Number of tries: {rounds}")
 
 
 main()
