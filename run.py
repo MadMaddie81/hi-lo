@@ -19,24 +19,8 @@ def introduction():
     print("Please answer with 1, 2 or 3\n")
 
     print("1. EASY - 1-10 - Guess my number within 3 tries to win the Small Dragon")
-    print("2. NORMAL - 1-100 - Guess my number within 5 tries to win the Medium Dragon")
+    print("2. NORMAL - 1-100 - Guess my number within 6 tries to win the Medium Dragon")
     print("3. HARD - 1-1000 - Guess my number within 10 tries to win the Big Dragon\n")
-
-
-def get_difficulty():
-    """
-    Get difficulty level choice from the player.
-    Runs a while-loop to get a valid answer from the player, 
-    which has to be 1, 2 or 3.
-    The loop will keep asking for a difficulty level 
-    until a valid number is entered.
-    """
-    while True:
-        choice = input("Choose difficulty level:\n")
-        if validate_choice(choice):
-            print("Thank you!\n")
-            break
-    return int(choice)
 
 
 def validate_choice(choice):
@@ -50,9 +34,26 @@ def validate_choice(choice):
         if choice < 1 or choice > 3:
             raise ValueError
     except ValueError:
-        print(f"Umm... There are 3 difficulty levels.\nWhat do you mean with {choice}?\nPlease type 1, 2 or 3.\n")
+        print(f'Umm... There are 3 difficulty levels.\nWhat do you mean by "{choice}"?\nPlease type 1, 2 or 3.\n')
         return False
     return True
+
+
+def get_difficulty():
+    """
+    Get difficulty level choice from the player.
+    Runs a while-loop to get a valid answer from the player,
+    which has to be 1, 2 or 3.
+    The loop will keep asking for a difficulty level,
+    until a valid number is entered.
+    Returns the input as an integer.
+    """
+    while True:
+        choice = input("Choose difficulty level:\n")
+        if validate_choice(choice):
+            print("Thank you!\n")
+            break
+    return int(choice)
 
 
 def get_max(level):
@@ -77,6 +78,36 @@ def randomize_answer(top):
     return answer
 
 
+def validate_guess(guess):
+    """
+    Tries to convert the player's guess to an integer.
+    Raises ValueError if conversion isn't possible.
+    """
+    try:
+        guess = int(guess)
+    except ValueError:
+        print("\n")
+        print(f'"{guess}"? What kind of answer is that?')
+        print("That's not even a number.")
+        print("I'm not even going to count that as a guess.")
+        print("Try again!\n")
+        return False
+    return True
+
+
+def get_guess():
+    """
+    Collects a guess from the player.
+    Runs a loop until a valid guess is provided.
+    Returns the guess as an integer.
+    """
+    while True:
+        guess = input("What number am I thinking of?\n")
+        if validate_guess(guess):
+            break
+    return int(guess)
+
+
 def main():
     """
     The main function that will be calling the other functions in
@@ -86,7 +117,8 @@ def main():
     level = get_difficulty()
     highest_no = get_max(level)
     answer = randomize_answer(highest_no)
-    print(answer)
+    guess = get_guess()
+    print(guess)
 
 
 main()
