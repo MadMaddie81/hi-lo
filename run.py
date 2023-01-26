@@ -26,14 +26,29 @@ def introduction():
     print(
         "3. HARD - 1-1000 - Guess my number within 10 tries to win a dragon\n"
         )
+    print("-----------------------------------------------------------")
+    print("IF YOU AT ANY POINT WISH TO EXIT THE GAME, PLEASE ENTER 'E'")
+    print("-----------------------------------------------------------")
+
+
+def exit_game():
+    """
+    Ends the game on player's request.
+    """
+    print("THANK YOU FOR PLAYING HI-LO!")
+    print("Have a nice day :)")
+    raise SystemExit()
 
 
 def validate_choice(choice):
     """
-    Inside the try, convert the input string to integer.
+    Tries to convert the input string to integer.
     Raises ValueError if the string cannot be converted to int,
     or if the choice isn't 1, 2 or 3.
+    Also ends the game on player's request
     """
+    if choice == "e" or choice == "E":
+        exit_game()
     try:
         choice = int(choice)
         if choice < 1 or choice > 3:
@@ -93,7 +108,10 @@ def validate_guess(guess, top, used):
         number for the chosen level.
       - The number has already been guessed before.
       - ValueError is found.
+    Also ends the game on player request.
     """
+    if guess == "e" or guess == "E":
+        exit_game()
     try:
         guess = int(guess)
         if guess < 1 or guess > top:
@@ -125,11 +143,11 @@ def validate_guess(guess, top, used):
 
 def get_guess(top, used):
     """
-    Collects a guess from the player.
-    Sends the guess as well as a list of used guesses to
-    a validating function.
-    Runs a loop until a valid guess is provided.
-    Returns the guess as an integer.
+    - Collects a guess from the player.
+    - Sends the guess as well as a list of used guesses to
+      a validating function.
+    - Runs a loop until a valid guess is provided.
+    - Returns the guess as an integer.
     """
     while True:
         guess = input("What is my number?\n")
