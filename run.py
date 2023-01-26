@@ -13,15 +13,19 @@ def introduction():
     print("\n")
 
     print("Hello and welcome to Hi-Lo!\n")
-    print("In this game I will think of a number and your task is simply\nto guess what that number is.\n")
-    print("If you can guess my number correctly in few enough tries,\nI will give you a dragon.\n")
+    print("In this game I will think of a number and your task is simply")
+    print("to guess what that number is.\n")
+    print("If you can guess my number correctly in few enough tries,")
+    print("I will give you a dragon.\n")
 
     print("First you need to pick your difficulty level.")
     print("Please answer with 1, 2 or 3\n")
 
-    print("1. EASY - 1-10 - Guess my number within 3 tries to win the Small Dragon")
-    print("2. NORMAL - 1-100 - Guess my number within 6 tries to win the Medium Dragon")
-    print("3. HARD - 1-1000 - Guess my number within 10 tries to win the Big Dragon\n")
+    print("1. EASY - 1-10 - Guess my number within 3 tries to win a dragon")
+    print("2. NORMAL - 1-100 - Guess my number within 6 tries to win a dragon")
+    print(
+        "3. HARD - 1-1000 - Guess my number within 10 tries to win a dragon\n"
+        )
 
 
 def validate_choice(choice):
@@ -35,7 +39,9 @@ def validate_choice(choice):
         if choice < 1 or choice > 3:
             raise ValueError
     except ValueError:
-        print(f'Umm... There are 3 difficulty levels.\nWhat do you mean by "{choice}"?\nPlease type 1, 2 or 3.\n')
+        print('Umm... There are 3 difficulty levels.')
+        print(f'What do you mean by "{choice}"?')
+        print('Please type 1, 2 or 3.\n')
         return False
     return True
 
@@ -79,10 +85,14 @@ def randomize_answer(top):
     return answer
 
 
-def validate_guess(guess, top):
+def validate_guess(guess, top, used):
     """
     Tries to convert the player's guess to an integer.
-    Raises ValueError if conversion isn't possible.
+    Retuns False if:
+      - The guessed number is below 1 or above the highest 
+        number for the chosen level.
+      - The number has already been guessed before.
+      - ValueError is found.
     """
     try:
         guess = int(guess)
@@ -90,6 +100,13 @@ def validate_guess(guess, top):
             print("--------------------------------------------------")
             print(f"I told you to guess a number between 1 and {top},")
             print(f"and you chose {guess}?")
+            print("I'm not going to count that as a guess.")
+            print("Try again!")
+            print("--------------------------------------------------")
+            return False
+        elif guess in used:
+            print("--------------------------------------------------")
+            print(f"You have already guessed {guess}")
             print("I'm not going to count that as a guess.")
             print("Try again!")
             print("--------------------------------------------------")
@@ -106,31 +123,37 @@ def validate_guess(guess, top):
     return True
 
 
-def get_guess(top):
+def get_guess(top, used):
     """
     Collects a guess from the player.
+    Sends the guess as well as a list of used guesses to
+    a validating function.
     Runs a loop until a valid guess is provided.
     Returns the guess as an integer.
     """
     while True:
         guess = input("What is my number?\n")
-        if validate_guess(guess, top):
+        if validate_guess(guess, top, used):
             break
     return int(guess)
 
 
 def play_game(answer, top):
     """
-    Takes the player's guess and compares it to the correct answer
-    in a while loop until the correct answer is given.
-    Keeps count on the number of guesses by adding +1 to a variable
-    for every iteration of the loop.
+    - Takes the player's guess and compares it to the correct answer
+      in a while loop until the correct answer is given.
+    - Keeps count on the number of guesses by adding +1 to a variable
+      for every iteration of the loop.
+    - Saves all used guesses in a list to prevent the same number
+      from being guessed twice.
     """
     print(f"I'm thinking of a number between 1 and {top}.")
     tries = 0
+    used_guesses = []
     while True:
-        guess = get_guess(top)
+        guess = get_guess(top, used_guesses)
         tries += 1
+        used_guesses.append(guess)
         if guess < answer:
             print(f"My number is higher than {guess}")
             print("--------------------------------------------------")
