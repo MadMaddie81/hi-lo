@@ -1,5 +1,6 @@
 import random
 
+
 def introduction():
     """
     Displays the header art, and prints the initial information
@@ -78,24 +79,34 @@ def randomize_answer(top):
     return answer
 
 
-def validate_guess(guess):
+def validate_guess(guess, top):
     """
     Tries to convert the player's guess to an integer.
     Raises ValueError if conversion isn't possible.
     """
     try:
         guess = int(guess)
+        if guess < 1 or guess > top:
+            print("--------------------------------------------------")
+            print(f"I told you to guess a number between 1 and {top},")
+            print(f"and you chose {guess}?")
+            print("I'm not going to count that as a guess.")
+            print("Try again!")
+            print("--------------------------------------------------")
+            return False
     except ValueError:
-        print("\n")
-        print(f'"{guess}"? What kind of answer is that?')
+        print("--------------------------------------------------")
+        print(f'{guess}? What kind of answer is that?')
         print("That's not even a number.")
-        print("I'm not even going to count that as a guess.")
-        print("Try again!\n")
+        print("Are these rules to difficult for you?")
+        print("Try again!")
+        print("--------------------------------------------------")
+        print(f"I'm thinking of a number between 1 and {top}")
         return False
     return True
 
 
-def get_guess():
+def get_guess(top):
     """
     Collects a guess from the player.
     Runs a loop until a valid guess is provided.
@@ -103,14 +114,14 @@ def get_guess():
     """
     while True:
         guess = input("What is my number?\n")
-        if validate_guess(guess):
+        if validate_guess(guess, top):
             break
     return int(guess)
 
 
 def play_game(answer, top):
     """
-    Takes the player's guess and compares it to the correct answer 
+    Takes the player's guess and compares it to the correct answer
     in a while loop until the correct answer is given.
     Keeps count on the number of guesses by adding +1 to a variable
     for every iteration of the loop.
@@ -118,12 +129,14 @@ def play_game(answer, top):
     print(f"I'm thinking of a number between 1 and {top}.")
     tries = 0
     while True:
-        guess = get_guess()
+        guess = get_guess(top)
         tries += 1
         if guess < answer:
-            print(f"My number is higher than {guess}\n")
+            print(f"My number is higher than {guess}")
+            print("--------------------------------------------------")
         elif guess > answer:
-            print(f"My number is lower than {guess}\n")
+            print(f"My number is lower than {guess}")
+            print("--------------------------------------------------")
         elif guess == answer:
             print(f"You got it!\nI was thinking of {answer}")
             break
