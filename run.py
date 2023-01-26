@@ -1,4 +1,5 @@
 import random
+import os
 
 
 def introduction():
@@ -6,11 +7,7 @@ def introduction():
     Displays the header art, and prints the initial information
     about the game to the player.
     """
-    f = open('header.txt')
-    lines = f.read()
-    f.close()
-    print(lines)
-    print("\n")
+    print_txt('header.txt')
 
     print("Hello and welcome to Hi-Lo!\n")
     print("In this game I will think of a number and your task is simply")
@@ -31,13 +28,48 @@ def introduction():
     print("-----------------------------------------------------------")
 
 
+def print_txt(file):
+    """
+    Open, read, print and close the desired txt-file.
+    """
+    f = open(file)
+    lines = f.read()
+    f.close()
+    print(lines)
+    print("\n")
+
+
 def exit_game():
     """
     Ends the game on player's request.
     """
+    os.system('clear')
+    print_txt('game-over.txt')
+
     print("THANK YOU FOR PLAYING HI-LO!")
     print("Have a nice day :)")
     raise SystemExit()
+
+
+def play_again():
+    """
+    Gives the player the option to play the game again.
+    Clears the screen before running the game once more.
+    """
+    restart = input("Would you like to play again? [Y/N]\n")
+    if restart == "Y" or restart == "y":
+        os.system('clear')
+        main()
+    elif restart == "N" or restart == "n" or restart == "E" or restart == "e":
+        exit_game()
+    else:
+        print("I'm just going to ask one more time.")
+        try_again = input('Do you wish to play again? Enter "Y" or "N".\n')
+        if try_again == "Y" or try_again == "y":
+            os.system('clear')
+            main()
+        else:
+            exit_game()
 
 
 def validate_choice(choice):
@@ -195,6 +227,7 @@ def main():
     answer = randomize_answer(highest_no)
     rounds = play_game(answer, highest_no)
     print(f"Number of tries: {rounds}")
+    play_again()
 
 
 main()
