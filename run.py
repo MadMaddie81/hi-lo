@@ -1,12 +1,27 @@
+"""
+WELCOME TO HI-LO!
+A number-guessing game that oozes 80's nostalgia in every line.
+
+- A number will be randomly generated depending on the chosen difficulty level.
+- The goal is to guess the number in as few tries as possible, with the help
+  of 'higher-than' and 'lower-than' hints.
+- If the player manage to guess the correct number in few enough tries they
+  will be rewarded with some classic ASCII-art.
+
+ENJOY!
+
+"""
 import random
 import os
 
 
 def introduction():
     """
+    Clears the screen before running the game.
     Displays the header art, and prints the initial information
     about the game to the player.
     """
+    os.system('clear')
     print_txt('header.txt')
 
     print("Hello and welcome to Hi-Lo!\n")
@@ -58,7 +73,6 @@ def play_again():
     """
     restart = input("Would you like to play again? [Y/N]\n")
     if restart == "Y" or restart == "y":
-        os.system('clear')
         main()
     elif restart == "N" or restart == "n" or restart == "E" or restart == "e":
         exit_game()
@@ -66,7 +80,6 @@ def play_again():
         print("I'm just going to ask one more time.")
         try_again = input('Do you wish to play again? Enter "Y" or "N".\n')
         if try_again == "Y" or try_again == "y":
-            os.system('clear')
             main()
         else:
             exit_game()
