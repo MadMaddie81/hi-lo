@@ -149,7 +149,7 @@ def validate_guess(guess, top, used):
     """
     Tries to convert the player's guess to an integer.
     Retuns False if:
-      - The guessed number is below 1 or above the highest 
+      - The guessed number is below 1 or above the highest
         number for the chosen level.
       - The number has already been guessed before.
       - ValueError is found.
@@ -229,6 +229,42 @@ def play_game(answer, top):
     return tries
 
 
+def result(answer, rounds, level):
+    """
+    Clears the screen
+    Congratulates the player for correctly guessing the right number.
+    Displays ASCII-art if the player finished in few enough tries.
+    """
+    os.system('clear')
+    print("YOU GOT IT!")
+    print(f"I was thinking of {answer}.")
+
+    if level == 3 and rounds == 1:
+        print_txt("first_try.txt")
+        print("YOU ARE A LEGEND!")
+        print("You got the correct number between 1 and 1000 in the first try")
+        print("I have a special dragon just for you.")
+        print("\n")
+    elif level == 1 and rounds <= 3:
+        print_txt("dragon1.txt")
+        print("CONGRATULATIONS!")
+        print("YOU WON THE LEVEL 1 DRAGON!")
+        print("\n")
+    elif level == 2 and rounds <= 6:
+        print_txt("dragon2.txt")
+        print("CONGRATULATIONS!")
+        print("YOU WON THE LEVEL 2 DRAGON!")
+        print("\n")
+    elif level == 3 and rounds <= 10:
+        print_txt("dragon3.txt")
+        print("CONGRATULATIONS!")
+        print("YOU WON THE LEVEL 3 DRAGON!")
+        print("\n")
+    else:
+        print("I'm sorry, you didn't win a dragon this time.")
+        print("\n")
+
+
 def main():
     """
     The main function that will be calling the other functions in
@@ -240,6 +276,7 @@ def main():
     answer = randomize_answer(highest_no)
     rounds = play_game(answer, highest_no)
     print(f"Number of tries: {rounds}")
+    result(answer, rounds, level)
     play_again()
 
 
