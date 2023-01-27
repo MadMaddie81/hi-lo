@@ -213,6 +213,7 @@ def play_game(answer, top):
       from being guessed twice.
     """
     print(f"I'm thinking of a number between 1 and {top}.")
+    print(answer)
     tries = 0
     used_guesses = []
     intermission_points = [10, 20, 30]
