@@ -238,6 +238,7 @@ def result(answer, rounds, level):
     os.system('clear')
     print("YOU GOT IT!")
     print(f"I was thinking of {answer}.")
+    print(f"You got the answer in {rounds} tries.")
 
     if level == 3 and rounds == 1:
         print_txt("first_try.txt")
