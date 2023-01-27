@@ -159,6 +159,11 @@ def validate_guess(guess, top, used):
     """
     if guess == "e" or guess == "E":
         exit_game()
+
+    if guess == "Drag0n":
+        print_txt("dont-readme.txt")
+        return False
+
     try:
         guess = int(guess)
         if guess < 1 or guess > top:
