@@ -72,14 +72,16 @@ def play_again():
     Clears the screen before running the game once more.
     """
     restart = input("Would you like to play again? [Y/N]\n")
-    if restart == "Y" or restart == "y":
+    yes = ['y', 'y', 'yes', 'Yes', 'YES']
+    no = ['n', 'N', 'no', 'NO']
+    if restart in yes:
         main()
-    elif restart == "N" or restart == "n" or restart == "E" or restart == "e":
+    elif restart in no or restart == "E" or restart == "e":
         exit_game()
     else:
         print("I'm just going to ask one more time.")
         try_again = input('Do you wish to play again? Enter "Y" or "N".\n')
-        if try_again == "Y" or try_again == "y":
+        if try_again in yes:
             main()
         else:
             exit_game()
@@ -213,7 +215,10 @@ def play_game(answer, top):
     print(f"I'm thinking of a number between 1 and {top}.")
     tries = 0
     used_guesses = []
+    intermission_points = [10, 20, 30]
     while True:
+        if tries in intermission_points:
+            intermission(tries, answer, top)
         guess = get_guess(top, used_guesses)
         tries += 1
         used_guesses.append(guess)
@@ -227,6 +232,48 @@ def play_game(answer, top):
             print(f"You got it!\nI was thinking of {answer}")
             break
     return tries
+
+
+def intermission(tries, answer, top):
+    """
+    Pauses the game when the player has made too many guesses
+    to ask if the player wish to give up.
+    """
+
+    if tries == 30:
+        print("Ok, this is getting ridiculous")
+        print(f"You have tried guessing this number {tries} times now.")
+        print("I'm putting an end to this farse.")
+        print(f"I was thinking of {answer}.")
+        play_again()
+
+    print("Stop for a moment.")
+    print(f"You have now tried to guess this number {tries} times.")
+
+    response = input("Do you wish to continue? [Y/N]\n")
+    yes = ['y', 'y', 'yes', 'Yes', 'YES']
+    no = ['n', 'N', 'no', 'NO']
+    if response in yes:
+        print("Ok, I was just checking.")
+        print("Let's continue then...")
+        print("--------------------------------------------------")
+        print(f"I'm thinking of a number between 1 and {top}.")
+    elif response in no:
+        print("Ok, let's end this then.")
+        print(f"I was thinking of {answer}")
+        play_again()
+    else:
+        print("I was asking you a question.")
+        response = input("Do you wish to continue? [Y/N]\n")
+        if response in yes:
+            print("Ok, I was just checking.")
+            print("Let's continue then...")
+            print("--------------------------------------------------")
+            print(f"I'm thinking of a number between 1 and {top}.")
+        else:
+            print("Ok, let's end this then.")
+            print(f"I was thinking of {answer}")
+            play_again()
 
 
 def result(answer, rounds, level):
