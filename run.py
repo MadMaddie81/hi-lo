@@ -43,56 +43,29 @@ def introduction():
     print("-----------------------------------------------------------")
 
 
-def print_txt(file):
+def get_difficulty():
     """
-    Open, read, print and close the desired txt-file.
+    Get difficulty level choice from the player.
+    Runs a while-loop to get a valid answer, which has to be 1, 2 or 3.
+    The loop will keep asking for a difficulty level,
+    until a valid number is entered.
+    Returns the input as an integer.
     """
-    f = open(file)
-    lines = f.read()
-    f.close()
-    print(lines)
-    print("\n")
-
-
-def exit_game():
-    """
-    Ends the game on player's request.
-    """
-    os.system('clear')
-    print_txt('game-over.txt')
-
-    print("THANK YOU FOR PLAYING HI-LO!")
-    print("Have a nice day :)")
-    raise SystemExit()
-
-
-def play_again():
-    """
-    Gives the player the option to play the game again.
-    Clears the screen before running the game once more.
-    """
-    restart = input("Would you like to play again? [Y/N]\n")
-    yes = ['y', 'y', 'yes', 'Yes', 'YES']
-    no = ['n', 'N', 'no', 'NO']
-    if restart in yes:
-        main()
-    elif restart in no or restart == "E" or restart == "e":
-        exit_game()
-    else:
-        print("I'm just going to ask one more time.")
-        try_again = input('Do you wish to play again? Enter "Y" or "N".\n')
-        if try_again in yes:
-            main()
-        else:
-            exit_game()
+    while True:
+        choice = input("Choose difficulty level:\n")
+        if validate_choice(choice):
+            print("Thank you!\n")
+            break
+    return int(choice)
 
 
 def validate_choice(choice):
     """
-    Tries to convert the input string to integer.
-    Raises ValueError if the string cannot be converted to int,
+    Validator for the difficulty level input.
+    Tries to convert the input str to int.
+    Raises ValueError if str cannot be converted to int,
     or if the choice isn't 1, 2 or 3.
-    Also ends the game on player's request
+    The player can always end the game by entering "E"
     """
     if choice == "e" or choice == "E":
         exit_game()
@@ -106,23 +79,6 @@ def validate_choice(choice):
         print('Please type 1, 2 or 3.\n')
         return False
     return True
-
-
-def get_difficulty():
-    """
-    Get difficulty level choice from the player.
-    Runs a while-loop to get a valid answer from the player,
-    which has to be 1, 2 or 3.
-    The loop will keep asking for a difficulty level,
-    until a valid number is entered.
-    Returns the input as an integer.
-    """
-    while True:
-        choice = input("Choose difficulty level:\n")
-        if validate_choice(choice):
-            print("Thank you!\n")
-            break
-    return int(choice)
 
 
 def get_max(level):
@@ -147,21 +103,73 @@ def randomize_answer(top):
     return answer
 
 
-def validate_guess(guess, top, used):
+def play_game(answer, top):
     """
+    - Takes the player's guess and compares it to the correct answer
+      in a while loop until the correct answer is given.
+    - Keeps count on the number of guesses by adding +1 to a variable
+      for every iteration of the loop.
+    - Saves all used guesses in a list to prevent the same number
+      from being guessed twice.
+    - Runs an intermisson when too many unsuccessful guesses has been made.
+    """
+    print(f"I'm thinking of a number between 1 and {top}.")
+    tries = 0
+    used_guesses = []
+    intermission_points = [10, 20, 30]
+    while True:
+        if tries in intermission_points:
+            intermission(tries, answer, top)
+        guess = get_guess(top, used_guesses, answer)
+        tries += 1
+        used_guesses.append(guess)
+        if guess < answer:
+            print(f"My number is higher than {guess}")
+            print("--------------------------------------------------")
+        elif guess > answer:
+            print(f"My number is lower than {guess}")
+            print("--------------------------------------------------")
+        elif guess == answer:
+            print(f"You got it!\nI was thinking of {answer}")
+            break
+    return tries
+
+
+def get_guess(top, used, answer):
+    """
+    - Collects a guess from the player.
+    - Sends the guess as well as a list of used guesses to
+      a validating function.
+    - Runs a loop until a valid guess is provided.
+    - Returns the guess as an integer.
+    """
+    while True:
+        guess = input("What is my number?\n")
+        if validate_guess(guess, top, used, answer):
+            break
+    return int(guess)
+
+
+def validate_guess(guess, top, used, answer):
+    """
+    Validator for the guessed number.
     Tries to convert the player's guess to an integer.
     Retuns False if:
       - The guessed number is below 1 or above the highest
         number for the chosen level.
       - The number has already been guessed before.
       - ValueError is found.
-    Also ends the game on player request.
+    The player can always end the game by entering "E".
     """
     if guess == "e" or guess == "E":
         exit_game()
 
     if guess == "Drag0n":
         print_txt("dont-readme.txt")
+        return False
+
+    if guess == "I am a cheater":
+        print(f"CHEATER CHEATER CHEATER {answer} CHEATER CHEATER CHEATER")
         return False
 
     try:
@@ -193,56 +201,12 @@ def validate_guess(guess, top, used):
     return True
 
 
-def get_guess(top, used):
-    """
-    - Collects a guess from the player.
-    - Sends the guess as well as a list of used guesses to
-      a validating function.
-    - Runs a loop until a valid guess is provided.
-    - Returns the guess as an integer.
-    """
-    while True:
-        guess = input("What is my number?\n")
-        if validate_guess(guess, top, used):
-            break
-    return int(guess)
-
-
-def play_game(answer, top):
-    """
-    - Takes the player's guess and compares it to the correct answer
-      in a while loop until the correct answer is given.
-    - Keeps count on the number of guesses by adding +1 to a variable
-      for every iteration of the loop.
-    - Saves all used guesses in a list to prevent the same number
-      from being guessed twice.
-    """
-    print(f"I'm thinking of a number between 1 and {top}.")
-    tries = 0
-    used_guesses = []
-    intermission_points = [10, 20, 30]
-    while True:
-        if tries in intermission_points:
-            intermission(tries, answer, top)
-        guess = get_guess(top, used_guesses)
-        tries += 1
-        used_guesses.append(guess)
-        if guess < answer:
-            print(f"My number is higher than {guess}")
-            print("--------------------------------------------------")
-        elif guess > answer:
-            print(f"My number is lower than {guess}")
-            print("--------------------------------------------------")
-        elif guess == answer:
-            print(f"You got it!\nI was thinking of {answer}")
-            break
-    return tries
-
-
 def intermission(tries, answer, top):
     """
-    Pauses the game when the player has made too many guesses
-    to ask if the player wish to give up.
+    Pauses the game when the player has made too many guesses.
+    When reached 10 or 20 guesses, the player gets asked if they
+    wish to continue.
+    When reached 30 guesses the game ends.
     """
 
     if tries == 30:
@@ -316,6 +280,53 @@ def result(answer, rounds, level):
     else:
         print("I'm sorry, you didn't win a dragon this time.")
         print("\n")
+
+
+def play_again():
+    """
+    Gives the player the option to play the game again.
+    If the player enters an invalid input, they get one more chance
+    to restart the game.
+    If another invalid input is given the game shuts down.
+    """
+    restart = input("Would you like to play again? [Y/N]\n")
+    yes = ['y', 'y', 'yes', 'Yes', 'YES']
+    no = ['n', 'N', 'no', 'NO']
+    if restart in yes:
+        main()
+    elif restart in no or restart == "E" or restart == "e":
+        exit_game()
+    else:
+        print("I'm just going to ask one more time.")
+        try_again = input('Do you wish to play again? Enter "Y" or "N".\n')
+        if try_again in yes:
+            main()
+        else:
+            exit_game()
+
+
+def exit_game():
+    """
+    Ends the game, on player's request, or when the player
+    reaches 30 guesses without finding the correct answer.
+    """
+    os.system('clear')
+    print_txt('game-over.txt')
+
+    print("THANK YOU FOR PLAYING HI-LO!")
+    print("Have a nice day :)")
+    raise SystemExit()
+
+
+def print_txt(file):
+    """
+    Open, read, print and close the desired txt-file.
+    """
+    f = open(file)
+    lines = f.read()
+    f.close()
+    print(lines)
+    print("\n")
 
 
 def main():
