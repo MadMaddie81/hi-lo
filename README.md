@@ -39,8 +39,8 @@
 * When 30 incorrect guesses has been made, the game will terminate.
 
 ### __Bad Guesses__
-* Only numbers in the chosen range will be accepted as valid guesses.
-* The game also remembers what numbers that has already been guessed on, and won't accept duplicate answers.
+* Only numbers in the chosen range will be accepted as a valid guess.
+* The game also remembers what numbers has already been guessed on, and won't accept duplicate guesses.
 * If an unacceptable guess has been entered, the game will respond with cheeky comments.
 
 ![Bad guess](images/bad-guess.png)
@@ -64,5 +64,15 @@
 ### __Easter Eggs & Cheat Codes__
 * Any text-based game worth it's name needs to have easter eggs and cheats implemented.   
 * So does this one.
-* First, if you manage to guess the number correctly on the first try on hard mode, you will be rewarded with a unique dragon picture that you wouldn't be able to access in any other way.
-* Try to enter <span style="background-color: black" onmouseover="background-color: white">Drag0n</span>
+* First, if you manage to guess the number correctly on the first try on hard mode, you will be rewarded with a unique dragon-picture that you wouldn't be able to access in any other way.
+* Try to enter "<span style="color: white">Drag0n</span>" or "<span style="color: white">I am a cheater</span>" insted of guessing a number and see what happens.
+
+---
+
+## __Flowchart__
+
+![chart](images/flowchart.png)
+
+---
+
+## __Technologies & Deployment__
