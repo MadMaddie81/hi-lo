@@ -65,7 +65,7 @@
 * Any text-based game worth it's name needs to have easter eggs and cheats implemented.   
 * So does this one.
 * First, if you manage to guess the number correctly on the first try on hard mode, you will be rewarded with a unique dragon-picture that you wouldn't be able to access in any other way.
-* Try to enter "<span style="color: white">Drag0n</span>" or "<span style="color: white">I am a cheater</span>" insted of guessing a number and see what happens.
+* Try to enter "<span style="color: #e4e4e4">Drag0n</span>" or "<span style="color: #e4e4e4">I am a cheater</span>" insted of guessing a number and see what happens.
 
 ---
 
@@ -76,3 +76,15 @@
 ---
 
 ## __Technologies & Deployment__
+
+* The game was designed and written in __GitPod__ using __Python__.
+* The "random" and "os" methods were imported to randomise the number to be guessed, and to clear the screen when needed.
+* The __HTML__ and __CSS__ comes from a template provided by [__Code Institute__](https://codeinstitute.net/)
+  - I have altered the HTML a bit by adding some extra rows to the mock terminal, so it could accommodate the ASCII-art.
+* The code was pushed to a repository on [__GitHub__](https://github.com/MadMaddie81/hi-lo)
+* The project was then deployed to [__Heroku__](https://heroku.com/) using the repo's main branch.
+  - Config Var:
+    * PORT : 8000
+  - Buildpacks:
+    * Python
+    * NodeJS
