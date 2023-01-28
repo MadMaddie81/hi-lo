@@ -116,10 +116,10 @@ def play_game(answer, top):
     print(f"I'm thinking of a number between 1 and {top}.")
     tries = 0
     used_guesses = []
-    intermission_points = [10, 20, 30]
+    intervention_points = [10, 20, 30]
     while True:
-        if tries in intermission_points:
-            intermission(tries, answer, top)
+        if tries in intervention_points:
+            intervention(tries, answer, top)
         guess = get_guess(top, used_guesses, answer)
         tries += 1
         used_guesses.append(guess)
@@ -201,7 +201,7 @@ def validate_guess(guess, top, used, answer):
     return True
 
 
-def intermission(tries, answer, top):
+def intervention(tries, answer, top):
     """
     Pauses the game when the player has made too many guesses.
     When reached 10 or 20 guesses, the player gets asked if they
@@ -210,8 +210,8 @@ def intermission(tries, answer, top):
     """
 
     if tries == 30:
-        print("Ok, this is getting ridiculous")
-        print(f"You have tried guessing this number {tries} times now.")
+        print("Ok, this is getting ridiculous.")
+        print(f"You have tried to guess this number {tries} times now.")
         print("I'm putting an end to this farse.")
         print(f"I was thinking of {answer}.")
         play_again()
