@@ -24,7 +24,7 @@ def introduction():
     os.system('clear')
     print_txt('header.txt')
 
-    print("Hello and welcome to Hi-Lo!\n")
+    print("Hello and welcome to HI-LO!\n")
     print("In this game I will think of a number and your task is simply")
     print("to guess what that number is.\n")
     print("If you can guess my number correctly in few enough tries,")
@@ -193,7 +193,7 @@ def validate_guess(guess, top, used, answer):
         print("--------------------------------------------------")
         print(f'{guess}? What kind of answer is that?')
         print("That's not even a number.")
-        print("Are these rules to difficult for you?")
+        print("Are these rules too difficult for you?")
         print("Try again!")
         print("--------------------------------------------------")
         print(f"I'm thinking of a number between 1 and {top}")
